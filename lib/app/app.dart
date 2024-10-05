@@ -1,8 +1,10 @@
-import 'package:comprobantes/features/payment/payment_home.dart';
 import 'package:comprobantes/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 
+import '../features/auth/auth_service.dart';
+import '../features/auth/auth_wrapper.dart';
 import '../theme/app_theme.dart';
 
 class PaymentApp extends StatelessWidget {
@@ -12,12 +14,22 @@ class PaymentApp extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeProvider = Provider.of<ThemeProvider>(context);
 
-    return MaterialApp(
-      title: 'Comprobantes',
-      theme: lightTheme,
-      darkTheme: darkTheme,
-      themeMode: themeProvider.themeMode,
-      home: const PaymentHomePage(),
+    SystemChrome.setSystemUIOverlayStyle(
+      const SystemUiOverlayStyle(
+        statusBarColor: Colors.transparent,
+        statusBarIconBrightness: Brightness.dark,
+      ),
+    );
+
+    return ChangeNotifierProvider(
+      create: (context) => AuthService(),
+      child: MaterialApp(
+        title: 'Comprobantes',
+        theme: lightTheme,
+        darkTheme: darkTheme,
+        themeMode: themeProvider.themeMode,
+        home: const AuthWrapper(),
+      ),
     );
   }
 }
