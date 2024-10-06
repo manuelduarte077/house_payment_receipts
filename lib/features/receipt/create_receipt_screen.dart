@@ -1,3 +1,4 @@
+import 'package:comprobantes/features/receipt/view_receipts_screen.dart';
 import 'package:comprobantes/features/receipt/widgets/custom_dropdown.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -98,6 +99,13 @@ class _CreateReceiptScreenState extends State<CreateReceiptScreen> {
           _selectedDate = null;
           _selectedTime = null;
         });
+
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => ViewReceiptsScreen(receiptId: receiptId),
+          ),
+        );
       } catch (e) {
         // Manejo de errores
         ScaffoldMessenger.of(context).showSnackBar(

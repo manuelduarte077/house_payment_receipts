@@ -96,6 +96,7 @@ class HomeScreen extends StatelessWidget {
       itemCount: snapshot.data?.docs.length,
       itemBuilder: (context, index) {
         final payment = snapshot.data?.docs[index];
+        final paymentId = snapshot.data?.docs[index].id;
 
         return Card(
           elevation: 2,
@@ -105,15 +106,18 @@ class HomeScreen extends StatelessWidget {
           ),
           child: ListTile(
             dense: true,
-            leading: const Icon(Icons.receipt_outlined),
-            title: Text('Cantidad ${payment?['amount']} USD'),
+            leading: const Icon(Icons.receipt_outlined, size: 40),
+            title: Text(
+              'Cantidad \$${payment?['amount']} USD',
+              style: const TextStyle(
+                fontSize: 16,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
             subtitle: Text('Cliente: ${payment?['client']}'),
             trailing: const Icon(Icons.arrow_forward_ios),
             onTap: () {
-              _showReceiptDetails(
-                context,
-                payment?['id'],
-              );
+              _showReceiptDetails(context, paymentId.toString());
             },
           ),
         );
@@ -135,12 +139,16 @@ class HomeScreen extends StatelessWidget {
       itemCount: snapshot?.data?.docs.length,
       itemBuilder: (context, index) {
         final payment = snapshot?.data?.docs[index];
+        final paymentId = snapshot?.data?.docs[index].id;
 
         return Card(
           elevation: 2.0,
           child: InkWell(
             onTap: () {
-              _showReceiptDetails(context, payment?['id']);
+              _showReceiptDetails(
+                context,
+                paymentId.toString(),
+              );
             },
             child: Padding(
               padding: const EdgeInsets.all(16.0),
