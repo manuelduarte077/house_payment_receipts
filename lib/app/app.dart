@@ -24,6 +24,7 @@ class PaymentApp extends StatelessWidget {
     return ChangeNotifierProvider(
       create: (context) => AuthService(),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Comprobantes',
         theme: lightTheme,
         darkTheme: darkTheme,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../auth/auth_service.dart';
-import '../history/payment_history.dart';
+import '../../auth/auth_service.dart';
+import '../../history/payment_history.dart';
 
 class CustomDrawer extends StatelessWidget {
   const CustomDrawer({super.key});

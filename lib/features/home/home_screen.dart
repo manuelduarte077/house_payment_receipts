@@ -3,9 +3,9 @@ import 'package:comprobantes/theme/theme_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../auth/auth_service.dart';
-import '../create_receipt_screen.dart';
-import '../view_receipts_screen.dart';
-import 'custom_drawer.dart';
+import '../receipt/create_receipt_screen.dart';
+import '../receipt/view_receipts_screen.dart';
+import 'widgets/custom_drawer.dart';
 
 import 'package:intl/intl.dart';
 
@@ -93,9 +93,9 @@ class HomeScreen extends StatelessWidget {
   Widget _buildListReceipts({required AsyncSnapshot<QuerySnapshot> snapshot}) {
     return ListView.builder(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      itemCount: snapshot.data!.docs.length,
+      itemCount: snapshot.data?.docs.length,
       itemBuilder: (context, index) {
-        final payment = snapshot.data!.docs[index];
+        final payment = snapshot.data?.docs[index];
 
         return Card(
           elevation: 2,
@@ -106,11 +106,14 @@ class HomeScreen extends StatelessWidget {
           child: ListTile(
             dense: true,
             leading: const Icon(Icons.receipt_outlined),
-            title: Text('Cantidad ${payment['amount']} USD'),
-            subtitle: Text('Cliente: ${payment['client']}'),
+            title: Text('Cantidad ${payment?['amount']} USD'),
+            subtitle: Text('Cliente: ${payment?['client']}'),
             trailing: const Icon(Icons.arrow_forward_ios),
             onTap: () {
-              _showReceiptDetails(context);
+              _showReceiptDetails(
+                context,
+                payment?['id'],
+              );
             },
           ),
         );
@@ -137,7 +140,7 @@ class HomeScreen extends StatelessWidget {
           elevation: 2.0,
           child: InkWell(
             onTap: () {
-              _showReceiptDetails(context);
+              _showReceiptDetails(context, payment?['id']);
             },
             child: Padding(
               padding: const EdgeInsets.all(16.0),
@@ -168,14 +171,16 @@ class HomeScreen extends StatelessWidget {
   }
 
   // Mostrar detalles del recibo usando un modal
-  void _showReceiptDetails(BuildContext context) {
+  void _showReceiptDetails(BuildContext context, String receiptId) {
     showModalBottomSheet(
       enableDrag: false,
       isDismissible: false,
       context: context,
       scrollControlDisabledMaxHeightRatio: 0.9,
       builder: (context) {
-        return const ViewReceiptsScreen();
+        return ViewReceiptsScreen(
+          receiptId: receiptId,
+        );
       },
     );
   }
